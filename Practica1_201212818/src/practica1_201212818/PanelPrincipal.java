@@ -5,19 +5,23 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import javax.swing.JFileChooser;
-import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JOptionPane;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.JLabel;
+import javax.swing.JTextArea;
+
 
 public class PanelPrincipal extends javax.swing.JFrame {
    
-     long numero, aux, digito, decimal;
-     int exponente;
-     boolean esBinario;
-     String valorstd="";
-     String val="";
-     String resultadoText="";
     File arch;
     boolean comprobacionx = true; 
+    public static int dimension=0;    
     
     public PanelPrincipal() {
         initComponents();
@@ -32,13 +36,16 @@ public class PanelPrincipal extends javax.swing.JFrame {
         btnArchivo = new javax.swing.JButton();
         btnSalir = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        txtentrada = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         btnJugar.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         btnJugar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/practica1_201212818/imagenes/jugar1.png"))); // NOI18N
+        btnJugar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnJugarActionPerformed(evt);
+            }
+        });
 
         btnArchivo.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         btnArchivo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/practica1_201212818/imagenes/xml2.png"))); // NOI18N
@@ -62,19 +69,12 @@ public class PanelPrincipal extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel1.setText("Pseudo-Scrabble");
 
-        txtentrada.setColumns(20);
-        txtentrada.setRows(5);
-        jScrollPane1.setViewportView(txtentrada);
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
@@ -82,13 +82,13 @@ public class PanelPrincipal extends javax.swing.JFrame {
                                 .addComponent(jLabel1))
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(22, 22, 22)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 466, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(btnArchivo, javax.swing.GroupLayout.PREFERRED_SIZE, 258, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(40, 40, 40)
-                                        .addComponent(btnJugar, javax.swing.GroupLayout.PREFERRED_SIZE, 252, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                        .addGap(0, 23, Short.MAX_VALUE)))
+                                .addComponent(btnArchivo, javax.swing.GroupLayout.PREFERRED_SIZE, 258, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(40, 40, 40)
+                                .addComponent(btnJugar, javax.swing.GroupLayout.PREFERRED_SIZE, 252, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 23, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(btnSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -98,17 +98,14 @@ public class PanelPrincipal extends javax.swing.JFrame {
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnArchivo, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnJugar, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnArchivo, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(82, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(btnJugar, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
                         .addComponent(btnSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap())
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(36, 36, 36)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 279, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(25, Short.MAX_VALUE))))
+                        .addGap(0, 0, Short.MAX_VALUE))))
         );
 
         pack();
@@ -131,7 +128,47 @@ public class PanelPrincipal extends javax.swing.JFrame {
     private void btnArchivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnArchivoActionPerformed
        String cadena = abrirArchivo();        
        cargarXML(cadena);
+       btnJugar.setEnabled(true);
     }//GEN-LAST:event_btnArchivoActionPerformed
+
+    private void btnJugarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnJugarActionPerformed
+        
+        final JFrame frame = new JFrame();
+        JPanel panel = new JPanel();
+        panel.setSize(100, 100);
+        frame.setSize(100,100);
+
+        JButton button1 = new JButton();
+
+        final JLabel label = new JLabel("Hello World");
+
+        label.setVisible(false);
+        frame.add(panel);
+        panel.add(button1);
+        panel.add(label);
+        frame.setVisible(true);
+
+       /* button1.addActionListener(new ActionListener() {
+
+            public void actionPerformed(ActionEvent arg0) {
+                JOptionPane.showMessageDialog(frame.getComponent(0), "Hello World");
+                label.setVisible(true);
+            }
+        });*/
+
+        
+        
+        JTextArea textarea= new JTextArea("");
+        textarea.setEditable(true);
+        JOptionPane.showMessageDialog(panel.getComponent(0), panel.getComponent(0), "Pseudo-Scrabble", JOptionPane.INFORMATION_MESSAGE);
+        
+        panelJuego ver=new panelJuego();
+        ver.setVisible(true);
+        ver.setLocationRelativeTo(null);
+        ver.setDefaultCloseOperation(ver.EXIT_ON_CLOSE);
+        this.dispose();
+        
+    }//GEN-LAST:event_btnJugarActionPerformed
 
     public String abrirArchivo (){
         String contenido = "";        
@@ -152,8 +189,7 @@ public class PanelPrincipal extends javax.swing.JFrame {
                     contenido = contenido + linea_arch + "\n";
                 }
                 linea.close();
-                txtentrada.setText(contenido);
-                //JOptionPane.showMessageDialog(null, "Archivo de Entrada Abierto");               
+                //txtentrada.setText(contenido);                
             } catch (Exception e) {
                 e.printStackTrace();            
             }            
@@ -203,9 +239,15 @@ public class PanelPrincipal extends javax.swing.JFrame {
                        } 
                     else if(codigoAscci == 62){ //>
                         token += cadenaconcatenar;
+                        //System.out.println(token);
+                        if (token.equals("<dimension>")){
+                            estadoprincipal =5;
+                            token ="";
+                        }
+                        else{
                         estadoprincipal =2;
-                        System.out.println(token);                        
                         token ="";
+                        }                        
                        }
                     else if(cadenaconcatenar == ' '){
                        estadoprincipal =0;
@@ -223,7 +265,13 @@ public class PanelPrincipal extends javax.swing.JFrame {
                     else if(codigoAscci >= 48 && codigoAscci <= 57 ){ //Digitos
                         token += cadenaconcatenar;
                         estadoprincipal =4;                        
-                       }                     
+                       }
+                    else if(cadenaconcatenar == ' '){
+                       estadoprincipal =0;
+                       }
+                    else if(cadenaconcatenar == '\n'){
+                       estadoprincipal =0;
+                       }
                 break;                    
                     
                 case 3: 
@@ -243,7 +291,7 @@ public class PanelPrincipal extends javax.swing.JFrame {
                     if(codigoAscci >= 48 && codigoAscci <= 57 ){ //Digitos
                         token += cadenaconcatenar;
                         estadoprincipal =4;        
-                        System.out.println(token);
+                        //System.out.println(token);
                         token="";
                        } 
                     else if(codigoAscci == 60){ //<                                                
@@ -257,7 +305,26 @@ public class PanelPrincipal extends javax.swing.JFrame {
                        estadoprincipal =0;
                        }
                 break;
-                    
+                
+                case 5: 
+                    if(codigoAscci >= 48 && codigoAscci <= 57 ){ //Digitos
+                        token += cadenaconcatenar;
+                        estadoprincipal =5;                        
+                       } 
+                    else if(codigoAscci == 60){ //<
+                        dimension = Integer.parseInt(token);
+                        token ="";
+                        token += cadenaconcatenar;
+                        estadoprincipal =1;
+                        System.out.println("este es la dimension: " + dimension);
+                       } 
+                    else if(cadenaconcatenar == ' '){
+                       estadoprincipal =0;
+                       }
+                    else if(cadenaconcatenar == '\n'){
+                       estadoprincipal =0;
+                       }               
+                break;                        
             }
         }       
         
@@ -301,7 +368,5 @@ public class PanelPrincipal extends javax.swing.JFrame {
     private javax.swing.JButton btnJugar;
     private javax.swing.JButton btnSalir;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextArea txtentrada;
     // End of variables declaration//GEN-END:variables
 }
